@@ -36,11 +36,6 @@ namespace GameServerRegistry
             loggerFactory.AddDebug();
 
             app.UseMvc();
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
-                ForwardedHeaders.XForwardedProto
-            });
         }
     }
 }

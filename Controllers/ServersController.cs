@@ -30,10 +30,13 @@ namespace GameServerRegistry.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody]int port)
+        public ActionResult Post([FromBody]string host)
         {
-            var ip = Request.HttpContext.Connection.RemoteIpAddress;
-            var endpoint = new System.Net.IPEndPoint(ip, port);
+            var components = host.Split(':');
+            var endpoint = new System.Net.IPEndPoint(
+                System.Net.IPAddress.Parse(components[0]),
+                int.Parse(components[1])
+            );
             _serversRegistry.RegisterServer(endpoint);
             _log.LogWarning($"Got ping from server {endpoint}");
             return Ok();
