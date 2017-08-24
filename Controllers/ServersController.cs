@@ -6,6 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace GameServerRegistry.Controllers
 {
+    public class ServerList
+    {
+        public IEnumerable<string> list;
+    }
+
     [Route("api/[controller]")]
     public class ServersController : Controller
     {
@@ -18,9 +23,9 @@ namespace GameServerRegistry.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ServerList Get()
         {
-            return _serversRegistry.GetServers().Select(i => i.ToString());
+            return new ServerList { list = _serversRegistry.GetServers().Select(i => i.ToString()) };
         }
 
         // POST api/values
