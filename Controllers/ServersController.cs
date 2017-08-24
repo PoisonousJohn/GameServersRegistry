@@ -6,6 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace GameServerRegistry.Controllers
 {
+    public class SimpleEndpoint
+    {
+        public string ip;
+        public int port;
+    }
     public class ServerList
     {
         public IEnumerable<string> list;
@@ -30,12 +35,11 @@ namespace GameServerRegistry.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody]string host)
+        public ActionResult Post([FromBody]SimpleEndpoint host)
         {
-            var components = host.Split(':');
             var endpoint = new System.Net.IPEndPoint(
-                System.Net.IPAddress.Parse(components[0]),
-                int.Parse(components[1])
+                System.Net.IPAddress.Parse(host.ip),
+                host.port
             );
             _serversRegistry.RegisterServer(endpoint);
             _log.LogWarning($"Got ping from server {endpoint}");
